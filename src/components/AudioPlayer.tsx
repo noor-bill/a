@@ -7,23 +7,21 @@ export function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [isDucked, setIsDucked] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const intervalRef = useRef<number | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const [usingSynthesizer, setUsingSynthesizer] = useState(false);
 
   // Romantic chord progression frequencies: Cmaj7 - Am9 - Fmaj7 - Gadd9
-  // Gentle, soft, dreamy ambient acoustic notes
   const notes = [
-    // Cmaj7 (C, E, G, B)
     [261.63, 329.63, 392.0, 493.88, 523.25],
-    // Am9 (A, C, E, G, B)
     [220.0, 261.63, 329.63, 392.0, 493.88],
-    // Fmaj7 (F, A, C, E)
     [174.61, 220.0, 261.63, 329.63, 349.23],
-    // G6 / Gsus (G, B, D, E)
     [196.0, 246.94, 293.66, 329.63, 392.0],
   ];
+
+  const effectiveVolume = isDucked ? 0.03 : volume;
 
   const playSynthesizedTone = (freq: number, duration = 3.5, timeOffset = 0) => {
     if (!audioContextRef.current) return;
@@ -35,13 +33,11 @@ export function AudioPlayer() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    // Soft sine wave for gentle music box / acoustic chime feel
     osc.type = "sine";
     osc.frequency.setValueAtTime(freq, ctx.currentTime + timeOffset);
 
-    // Warm envelope
     const startTime = ctx.currentTime + timeOffset;
-    const peakGain = 0.08 * volume;
+    const peakGain = 0.08 * effectiveVolume;
 
     gain.gain.setValueAtTime(0, startTime);
     gain.gain.linearRampToValueAtTime(peakGain, startTime + 0.3);
@@ -60,7 +56,6 @@ export function AudioPlayer() {
       const chord = notes[chordIndex % notes.length];
       chordIndex++;
 
-      // Arpeggiate chord notes smoothly
       chord.forEach((freq, idx) => {
         playSynthesizedTone(freq, 4.0, idx * 0.45);
       });
@@ -79,22 +74,22 @@ export function AudioPlayer() {
 
   const toggleMusic = async () => {
     if (isPlaying) {
-      // Pause
       if (audioElementRef.current && !usingSynthesizer) {
         audioElementRef.current.pause();
       }
       stopSynthesizer();
       setIsPlaying(false);
     } else {
-      // Try playing audio element if file exists
       if (!audioContextRef.current) {
-        const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const AudioCtx =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         audioContextRef.current = new AudioCtx();
       }
 
       const audio = new Audio("/music.mp3");
       audioElementRef.current = audio;
-      audio.volume = volume;
+      audio.volume = effectiveVolume;
       audio.loop = true;
 
       try {
@@ -102,13 +97,30 @@ export function AudioPlayer() {
         setUsingSynthesizer(false);
         setIsPlaying(true);
       } catch {
-        // Fallback gracefully to high-quality ambient synthesizer
         setUsingSynthesizer(true);
         startSynthesizerLoop();
         setIsPlaying(true);
       }
     }
   };
+
+  // Listen to video play status to duck music when video is active
+  useEffect(() => {
+    const handleVideoStatus = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isPlaying: boolean }>;
+      const isVideoPlaying = !!customEvent.detail?.isPlaying;
+      setIsDucked(isVideoPlaying);
+
+      if (audioElementRef.current) {
+        audioElementRef.current.volume = isVideoPlaying ? 0.03 : volume;
+      }
+    };
+
+    window.addEventListener("video-play-status", handleVideoStatus);
+    return () => {
+      window.removeEventListener("video-play-status", handleVideoStatus);
+    };
+  }, [volume]);
 
   useEffect(() => {
     return () => {
@@ -131,7 +143,11 @@ export function AudioPlayer() {
             <span className="w-1 bg-rose-400 rounded-full animate-bounce [animation-duration:700ms] h-3" />
           </span>
           <span className="ml-1 font-medium text-[11px] tracking-wide">
-            {usingSynthesizer ? "Romantic Melody ♫" : "Playing Music ♫"}
+            {isDucked
+              ? "Audio Lowered for Video 🎬"
+              : usingSynthesizer
+              ? "Romantic Melody ♫"
+              : "Playing Music ♫"}
           </span>
         </div>
       )}

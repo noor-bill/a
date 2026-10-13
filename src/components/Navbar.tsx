@@ -14,7 +14,8 @@ export function Navbar({ onReopenEnvelope }: NavbarProps) {
     { label: "Our Story", href: "#" },
     { label: "Love Letter", href: "#love-letter" },
     { label: "The Teasing 😏", href: "#teasing" },
-    { label: "Our World 📸", href: "#gallery" },
+    { label: "Our Photos 📸", href: "#gallery" },
+    { label: "Videos 🎬", href: "#videos" },
     { label: "Reasons ❤️", href: "#reasons" },
     { label: "The Quiz 💕", href: "#quiz" },
     { label: "Surprise 🎁", href: "#surprise" },
@@ -38,7 +39,7 @@ export function Navbar({ onReopenEnvelope }: NavbarProps) {
             <a
               key={idx}
               href={item.href}
-              className="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors"
+              className="px-2.5 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors"
             >
               {item.label}
             </a>

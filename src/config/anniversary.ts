@@ -1,4 +1,22 @@
+export interface GalleryPhoto {
+  id: string;
+  src: string;
+  caption: string;
+  locationTag: string;
+  dateTag: string;
+}
+
+export interface VideoMemory {
+  id: string;
+  src: string;
+  title: string;
+  caption: string;
+  tag: string;
+  dateTag: string;
+}
+
 export interface AnniversaryConfig {
+  wifeName: string;
   wifeTitle: string;
   husbandTitle: string;
   anniversaryDate: string; // October 14, 2026
@@ -61,13 +79,13 @@ export interface AnniversaryConfig {
   gallery: {
     title: string;
     subtitle: string;
-    photos: {
-      id: string;
-      src: string;
-      caption: string;
-      locationTag: string;
-      dateTag: string;
-    }[];
+    photos: GalleryPhoto[];
+  };
+
+  videos: {
+    title: string;
+    subtitle: string;
+    items: VideoMemory[];
   };
 
   reasons: {
@@ -132,14 +150,15 @@ export interface AnniversaryConfig {
 }
 
 export const anniversaryConfig: AnniversaryConfig = {
-  wifeTitle: "My Beautiful Wife",
+  wifeName: "Noor",
+  wifeTitle: "My Beautiful Wife, Noor",
   husbandTitle: "Your Husband",
   anniversaryDate: "October 14, 2026",
   weddingDate: "2026-06-14",
   monthsCount: 4,
 
   opening: {
-    greeting: "Hey, My Beautiful Wife ❤️",
+    greeting: "Hey, My Beautiful Wife Noor ❤️",
     subgreeting: "Someone has a little surprise for you...",
     warning:
       "Warning: Opening this website may cause excessive smiling, blushing, butterflies, and an uncontrollable urge to hug your husband. 😌❤️",
@@ -163,7 +182,7 @@ export const anniversaryConfig: AnniversaryConfig = {
 
   letter: {
     heading: "To My Favorite Person in the Entire Universe ❤️",
-    salutation: "My love,",
+    salutation: "My dearest Noor,",
     body: [
       "Happy four months of us.",
       "It feels so genuinely special to call you my wife every single morning. These four months have given me so many reasons to smile, so many sweet little memories to treasure, and so many more reasons to fall in love with you all over again.",
@@ -254,42 +273,119 @@ export const anniversaryConfig: AnniversaryConfig = {
   gallery: {
     title: "Our Little World ❤️",
     subtitle:
-      "A collection of beautiful moments, romantic scenery, and memories of us. (You can also preview with real photos anytime!)",
+      "Genuine moments, stolen smiles, and the person who makes every single second unforgettable.",
     photos: [
       {
-        id: "photo-1",
-        src: "/gallery/1.jpg",
-        caption: "Us. Always us. Under a sky full of stars. ❤️",
-        locationTag: "Under The Starlight",
-        dateTag: "Always & Forever",
+        id: "real-photo-3",
+        src: "/media/photos/photo-3.jpg",
+        caption: "The shy, adorable blush I fall in love with over and over again. 💜",
+        locationTag: "My Shy Princess",
+        dateTag: "Stolen Blush",
       },
       {
-        id: "photo-2",
-        src: "/gallery/2.jpg",
-        caption: "A little moment, a lifetime of promises. 💍",
-        locationTag: "Our Sacred Vow",
-        dateTag: "June 14, 2026",
-      },
-      {
-        id: "photo-3",
-        src: "/gallery/3.jpg",
-        caption: "My kind of happiness written in the golden sand. 🌊",
-        locationTag: "Golden Hour Glow",
-        dateTag: "Sunny Days With You",
-      },
-      {
-        id: "photo-4",
-        src: "/gallery/4.jpg",
-        caption: "Every single prayer and dream led straight to you. ✨",
-        locationTag: "Lantern Dreams",
-        dateTag: "A Thousand Wishes",
-      },
-      {
-        id: "photo-5",
-        src: "/gallery/5.jpg",
-        caption: "The smile I would choose a thousand times over. 🥂",
-        locationTag: "Cozy Evenings",
+        id: "real-photo-7",
+        src: "/media/photos/photo-7.jpg",
+        caption: "The smile that fixes my entire world in a heartbeat. ✨",
+        locationTag: "Pure Sunshine",
         dateTag: "My Favorite View",
+      },
+      {
+        id: "real-photo-1",
+        src: "/media/photos/photo-1.jpg",
+        caption: "Your pure, caring heart that makes everyone around you so happy. 🌸",
+        locationTag: "Gentle Soul",
+        dateTag: "Sweetest Moments",
+      },
+      {
+        id: "real-photo-6",
+        src: "/media/photos/photo-6.jpg",
+        caption: "Walking through life with my beautiful queen by my side. 👑",
+        locationTag: "In Full Bloom",
+        dateTag: "Our Adventures",
+      },
+      {
+        id: "real-photo-2",
+        src: "/media/photos/photo-2.jpg",
+        caption: "Peace, warmth, and the prettiest eyes in the entire universe. 💜",
+        locationTag: "Peace & Love",
+        dateTag: "Just Us",
+      },
+      {
+        id: "real-photo-5",
+        src: "/media/photos/photo-5.jpg",
+        caption: "With you, even the cloudy mountains look like paradise. ☁️",
+        locationTag: "Top of the World",
+        dateTag: "Breathtaking",
+      },
+      {
+        id: "real-photo-4",
+        src: "/media/photos/photo-4.jpg",
+        caption: "Recorded forever in my heart: that irresistible smile. 🎥",
+        locationTag: "On Camera",
+        dateTag: "Frame by Frame",
+      },
+      {
+        id: "real-photo-8",
+        src: "/media/photos/photo-8.jpg",
+        caption: "Us. Always us. My favorite notification, my forever home. ❤️",
+        locationTag: "Forever & Always",
+        dateTag: "October 14, 2026",
+      },
+    ],
+  },
+
+  videos: {
+    title: "Moments in Motion 🎬❤️",
+    subtitle:
+      "Because photos capture the smile, but these little videos capture your laughter, your charm, and your adorable madness.",
+    items: [
+      {
+        id: "vid-1",
+        src: "/media/videos/video-1.mp4",
+        title: "A Little Laugh, A Lifetime of Joy ✨",
+        caption: "That spontaneous laugh that makes my entire day 100x better.",
+        tag: "Pure Joy",
+        dateTag: "Sweet Memory",
+      },
+      {
+        id: "vid-2",
+        src: "/media/videos/video-2.mp4",
+        title: "Caught You Smiling 😏❤️",
+        caption: "Every time my camera turns toward you, magic happens.",
+        tag: "Irresistible",
+        dateTag: "Candids of You",
+      },
+      {
+        id: "vid-3",
+        src: "/media/videos/video-3.mp4",
+        title: "My Favorite Trouble 🤭",
+        caption: "The queen of cuteness and drama in action.",
+        tag: "Sweet Drama",
+        dateTag: "Husband Perspective",
+      },
+      {
+        id: "vid-4",
+        src: "/media/videos/video-4.mp4",
+        title: "Sweet & Spontaneous 🌸",
+        caption: "Little moments that turn into forever memories.",
+        tag: "Cherished",
+        dateTag: "Our Journey",
+      },
+      {
+        id: "vid-5",
+        src: "/media/videos/video-5.mp4",
+        title: "The Cutest Reaction Ever 🥹",
+        caption: "Why annoying you is officially my full-time profession.",
+        tag: "Priceless",
+        dateTag: "Daily Happiness",
+      },
+      {
+        id: "vid-6",
+        src: "/media/videos/video-6.mp4",
+        title: "Forever My Partner in Crime 💍",
+        caption: "Four months of being yours, and I want a lifetime more.",
+        tag: "Forever Yours",
+        dateTag: "October 14, 2026",
       },
     ],
   },

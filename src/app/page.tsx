@@ -7,6 +7,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { LoveLetter } from "@/components/LoveLetter";
 import { TeasingSection } from "@/components/TeasingSection";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { VideoMemories } from "@/components/VideoMemories";
 import { LoveReasons } from "@/components/LoveReasons";
 import { LoveQuiz } from "@/components/LoveQuiz";
 import { LoveQuotes } from "@/components/LoveQuotes";
@@ -45,6 +46,7 @@ export default function AnniversaryPage() {
           <LoveLetter />
           <TeasingSection />
           <PhotoGallery />
+          <VideoMemories />
           <LoveReasons />
           <LoveQuiz />
           <LoveQuotes />
